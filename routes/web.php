@@ -56,3 +56,24 @@ Route::view('/Promociones', 'promociones');
 
 // Perfil
 Route::view('/Perfil', 'perfil');
+
+// Panel administrativo estatico para la actividad de diseno frontend
+Route::view('/admin', 'admin.dashboard')->name('admin.dashboard');
+
+$adminModules = [
+    'usuarios', 'roles', 'especialidades', 'sesiones-sociales', 'medicos',
+    'citas', 'expedientes', 'servicios-medicos', 'carritos', 'listas-deseos',
+    'historial-transacciones', 'logs',
+];
+
+foreach ($adminModules as $module) {
+    Route::view("/admin/{$module}", 'admin.module', [
+        'module' => $module,
+        'mode' => 'list',
+    ])->name("admin.{$module}.index");
+
+    Route::view("/admin/{$module}/crear", 'admin.module', [
+        'module' => $module,
+        'mode' => 'create',
+    ])->name("admin.{$module}.create");
+}
