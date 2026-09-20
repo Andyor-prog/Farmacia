@@ -22,14 +22,25 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @forelse ($productos as $producto)
             <div class="col">
                 <div class="card h-100 shadow-sm text-center p-3">
-                    <img src="{{ asset('storage/' . $producto->imagen) }}"
-                         class="card-img-top mx-auto"
-                         alt="{{ $producto->nombre }}"
-                         style="max-height: 180px; object-fit: contain;">
+                    @if ($producto->imagen)
+                        <img src="{{ asset('storage/' . $producto->imagen) }}"
+                             class="card-img-top mx-auto"
+                             alt="{{ $producto->nombre }}"
+                             style="max-height: 180px; object-fit: contain;">
+                    @else
+                        <div class="text-muted py-5">Sin imagen</div>
+                    @endif
 
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div>
@@ -38,6 +49,14 @@
                             <p class="card-text text-success fw-bold fs-5">${{ number_format($producto->precio, 2) }}</p>
                         </div>
                         <small class="text-muted">Stock: {{ $producto->stock }}</small>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="{{ route('productos.edit', $producto) }}" class="btn btn-warning btn-sm w-100">Editar</a>
+                            <form action="{{ route('productos.destroy', $producto) }}" method="POST" class="w-100" onsubmit="return confirm('¿Deseas eliminar este producto?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-100">Eliminar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
