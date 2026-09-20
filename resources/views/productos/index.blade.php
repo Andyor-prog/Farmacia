@@ -1,75 +1,65 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos - Farmacia</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-4">
+@extends('layouts.admin')
 
-<div class="container my-5 bg-white p-4 rounded shadow-sm">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Catálogo de Productos</h2>
-        <a href="{{ route('productos.create') }}" class="btn btn-success">+ Nuevo Producto</a>
-    </div>
-
-    @if (session('exito'))
-        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-            {{ session('exito') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+@section('content')
+    <div class="mx-auto max-w-7xl">
+        <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[.18em] text-orange-600">Catálogo</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Productos</h1>
+                <p class="mt-2 text-slate-500">Administra el inventario de productos disponibles en la farmacia.</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="{{ route('productos.papelera') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-orange-400 hover:text-orange-700">🗑 Papelera</a>
+                <a href="{{ route('productos.create') }}" class="inline-flex items-center justify-center rounded-lg bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800">+ Nuevo producto</a>
+            </div>
         </div>
-    @endif
 
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+        @if (session('exito'))
+            <div class="mb-6 rounded-lg border border-teal-200 bg-teal-50 px-4 py-3 text-sm font-medium text-teal-800">
+                {{ session('exito') }}
+            </div>
+        @endif
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @forelse ($productos as $producto)
-            <div class="col">
-                <div class="card h-100 shadow-sm text-center p-3">
-                    @if ($producto->imagen)
-                        <img src="{{ asset('storage/' . $producto->imagen) }}"
-                             class="card-img-top mx-auto"
-                             alt="{{ $producto->nombre }}"
-                             style="max-height: 180px; object-fit: contain;">
-                    @else
-                        <div class="text-muted py-5">Sin imagen</div>
-                    @endif
+        @if (session('error'))
+            <div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+                {{ session('error') }}
+            </div>
+        @endif
 
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title fw-bold">{{ $producto->nombre }}</h5>
-                            <span class="badge bg-primary mb-2">{{ $producto->categoria }}</span>
-                            <p class="card-text text-success fw-bold fs-5">${{ number_format($producto->precio, 2) }}</p>
-                        </div>
-                        <small class="text-muted">Stock: {{ $producto->stock }}</small>
-                        <div class="d-flex gap-2 mt-3">
-                            <a href="{{ route('productos.edit', $producto) }}" class="btn btn-warning btn-sm w-100">Editar</a>
-                            <form action="{{ route('productos.destroy', $producto) }}" method="POST" class="w-100" onsubmit="return confirm('¿Deseas eliminar este producto?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm w-100">Eliminar</button>
-                            </form>
-                        </div>
+        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            @forelse ($productos as $producto)
+                <section class="admin-panel flex flex-col overflow-hidden rounded-xl">
+                    <div class="flex h-40 items-center justify-center bg-slate-50">
+                        @if ($producto->imagen)
+                            <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}" class="max-h-36 max-w-full object-contain">
+                        @else
+                            <span class="text-sm text-slate-400">Sin imagen</span>
+                        @endif
                     </div>
+                    <div class="flex flex-1 flex-col gap-2 p-5">
+                        <div class="flex items-start justify-between gap-2">
+                            <h3 class="text-base font-bold text-slate-900">{{ $producto->nombre }}</h3>
+                            <span class="shrink-0 rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-700">{{ $producto->categoria }}</span>
+                        </div>
+                        <p class="text-xl font-bold text-teal-700">${{ number_format($producto->precio, 2) }}</p>
+                        <p class="text-sm text-slate-500">Stock: {{ $producto->stock }} unidades</p>
+                        <div class="mt-3 flex gap-2 border-t border-slate-200 pt-3">
+                            <a href="{{ route('productos.show', $producto) }}" class="flex-1 rounded-md border border-slate-200 px-2.5 py-1.5 text-center text-xs font-semibold text-slate-600 hover:border-teal-400 hover:text-teal-700">Ver</a>
+                            <a href="{{ route('productos.edit', $producto) }}" class="flex-1 rounded-md border border-slate-200 px-2.5 py-1.5 text-center text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-700">Editar</a>
+                        </div>
+                        <form action="{{ route('productos.destroy', $producto) }}" method="POST" onsubmit="return confirm('¿Deseas mover este producto a la papelera? Podrás restaurarlo después.');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="w-full rounded-md border border-red-200 px-2.5 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Eliminar</button>
+                        </form>
+                    </div>
+                </section>
+            @empty
+                <div class="col-span-full admin-panel rounded-xl p-10 text-center">
+                    <p class="text-slate-500">No hay productos registrados aún.</p>
+                    <a href="{{ route('productos.create') }}" class="mt-4 inline-block rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white">Crear el primer producto</a>
                 </div>
-            </div>
-        @empty
-            <div class="col-12 text-center py-5">
-                <p class="text-muted fs-5">No hay productos registrados aún.</p>
-                <a href="{{ route('productos.create') }}" class="btn btn-primary">Crear el primer producto</a>
-            </div>
-        @endforelse
+            @endforelse
+        </div>
     </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

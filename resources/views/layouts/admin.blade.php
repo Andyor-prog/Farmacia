@@ -33,6 +33,9 @@
                 <a href="{{ route('admin.dashboard') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('admin.dashboard') ? 'is-active' : '' }}">
                     <span class="w-5 text-center">⌂</span> Resumen
                 </a>
+                <a href="{{ route('productos.index') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('productos.*') ? 'is-active' : '' }}">
+                    <span class="w-5 text-center text-cyan-200">▣</span> Productos
+                </a>
                 @foreach ($navigation as $item)
                     <a href="{{ route('admin.' . $item['slug'] . '.index') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('admin.' . $item['slug'] . '.*') ? 'is-active' : '' }}">
                         <span class="w-5 text-center text-cyan-200">{{ $item['icon'] }}</span> {{ $item['label'] }}

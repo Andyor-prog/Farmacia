@@ -33,6 +33,9 @@
                 <a href="<?php echo e(route('admin.dashboard')); ?>" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm <?php echo e(request()->routeIs('admin.dashboard') ? 'is-active' : ''); ?>">
                     <span class="w-5 text-center">⌂</span> Resumen
                 </a>
+                <a href="<?php echo e(route('productos.index')); ?>" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm <?php echo e(request()->routeIs('productos.*') ? 'is-active' : ''); ?>">
+                    <span class="w-5 text-center text-cyan-200">▣</span> Productos
+                </a>
                 <?php $__currentLoopData = $navigation; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <a href="<?php echo e(route('admin.' . $item['slug'] . '.index')); ?>" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm <?php echo e(request()->routeIs('admin.' . $item['slug'] . '.*') ? 'is-active' : ''); ?>">
                         <span class="w-5 text-center text-cyan-200"><?php echo e($item['icon']); ?></span> <?php echo e($item['label']); ?>

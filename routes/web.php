@@ -12,47 +12,24 @@ use App\Http\Controllers\ProductoController;
 // Redirigir la raíz directamente al listado de productos
 Route::get('/', [ProductoController::class, 'index'])->name('home');
 
-// Página principal
-Route::view('/Inicio', 'inicio');
-
-// Información del usuario
-Route::view('/usuario/contacto', 'informacion.contacto');
-
 // Sobre nosotros
-Route::view('/SobreNosotros', 'empresa');
 Route::view('/Blog', 'SobreNosotros.blog');
 Route::view('/Preguntas', 'SobreNosotros.preguntas');
 Route::view('/Contacto', 'SobreNosotros.contacto');
 Route::view('/Politicas', 'SobreNosotros.politicas');
 Route::view('/Sucursales', 'SobreNosotros.sucursal');
 
-// Información general
-Route::view('/Locales', 'informacion.sucursales');
-
-// Servicios y carrito
-Route::view('/Servicios', 'servicios');
-Route::view('/Pago', 'Carrito.pago');
-
-// Autenticación
-Route::view('/LoginHuella', 'login_huella');
-Route::view('/Login', 'login');
-
-// Test
-Route::view('/test', 'test');
-
 // --- RUTAS DE PRODUCTOS (CONTROLADOR) ---
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 Route::get('/productos/crear', [ProductoController::class, 'create'])->name('productos.create');
+Route::get('/productos/eliminados', [ProductoController::class, 'papelera'])->name('productos.papelera');
 Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
+Route::get('/productos/{producto}', [ProductoController::class, 'show'])->name('productos.show');
 Route::get('/productos/{producto}/editar', [ProductoController::class, 'edit'])->name('productos.edit');
 Route::put('/productos/{producto}', [ProductoController::class, 'update'])->name('productos.update');
 Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
-
-// Promociones
-Route::view('/Promociones', 'promociones');
-
-// Perfil
-Route::view('/Perfil', 'perfil');
+Route::put('/productos/{producto}/restaurar', [ProductoController::class, 'restore'])->name('productos.restore');
+Route::delete('/productos/{producto}/eliminar-definitivo', [ProductoController::class, 'forceDestroy'])->name('productos.forceDestroy');
 
 // Panel administrativo
 Route::view('/admin', 'admin.dashboard')->name('admin.dashboard');

@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Producto</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-4">
-    <div class="container bg-white p-4 rounded shadow-sm" style="max-width: 600px;">
-        <h2 class="mb-4 text-center fw-bold">Registrar Nuevo Producto</h2>
+@extends('layouts.admin')
+
+@section('content')
+    <div class="mx-auto max-w-3xl">
+        <div class="mb-8">
+            <a href="{{ route('productos.index') }}" class="text-sm font-semibold text-teal-700 hover:text-teal-900">← Volver al catálogo</a>
+            <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Nuevo producto</h1>
+            <p class="mt-2 text-slate-500">Completa la información para registrarlo en el catálogo.</p>
+        </div>
 
         @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Por favor corrige los siguientes errores:</strong>
-                <ul class="mb-0 mt-2">
+            <div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                <p class="font-semibold">Por favor corrige los siguientes errores:</p>
+                <ul class="mt-1 list-disc pl-5">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -21,44 +19,45 @@
             </div>
         @endif
 
-        <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+        <section class="admin-panel rounded-xl p-6 lg:p-8">
+            <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data" class="grid gap-5 md:grid-cols-2">
+                @csrf
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Nombre del Producto</label>
-                <input type="text" name="nombre" class="form-control" value="{{ old('nombre') }}" required minlength="3" maxlength="100">
-            </div>
+                <label>
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">Nombre del producto</span>
+                    <input class="admin-field" type="text" name="nombre" value="{{ old('nombre') }}" required minlength="3" maxlength="100">
+                </label>
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Precio ($)</label>
-                <input type="number" step="0.01" name="precio" class="form-control" value="{{ old('precio') }}" required min="0.01">
-            </div>
+                <label>
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">Precio ($)</span>
+                    <input class="admin-field" type="number" step="0.01" name="precio" value="{{ old('precio') }}" required min="0.01">
+                </label>
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Stock</label>
-                <input type="number" name="stock" class="form-control" value="{{ old('stock') }}" required min="0">
-            </div>
+                <label>
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">Stock</span>
+                    <input class="admin-field" type="number" name="stock" value="{{ old('stock') }}" required min="0">
+                </label>
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Categoría</label>
-                <select name="categoria" class="form-select" required>
-                    <option value="">-- Seleccione una opción --</option>
-                    <option value="Analgesico">Analgésico</option>
-                    <option value="Antibiotico">Antibiótico</option>
-                    <option value="Vitamina">Vitamina</option>
-                </select>
-            </div>
+                <label>
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">Categoría</span>
+                    <select class="admin-field" name="categoria" required>
+                        <option value="">-- Selecciona una opción --</option>
+                        @foreach (['Analgesico' => 'Analgésico', 'Antibiotico' => 'Antibiótico', 'Vitamina' => 'Vitamina'] as $value => $label)
+                            <option value="{{ $value }}" @selected(old('categoria') === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </label>
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Imagen (JPG, PNG, WEBP - Máx 2MB)</label>
-                <input type="file" name="imagen" class="form-control" accept="image/jpeg,image/png,image/webp" required>
-            </div>
+                <label class="md:col-span-2">
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">Imagen (JPG, PNG, WEBP - máx. 2MB)</span>
+                    <input class="admin-field" type="file" name="imagen" accept="image/jpeg,image/png,image/webp" required>
+                </label>
 
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary w-100 fw-bold">Guardar Producto</button>
-                <a href="{{ route('productos.index') }}" class="btn btn-outline-secondary w-100">Cancelar</a>
-            </div>
-        </form>
+                <div class="flex flex-wrap gap-3 border-t border-slate-200 pt-6 md:col-span-2">
+                    <button type="submit" class="rounded-lg bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-800">Guardar producto</button>
+                    <a href="{{ route('productos.index') }}" class="rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-600">Cancelar</a>
+                </div>
+            </form>
+        </section>
     </div>
-</body>
-</html>
+@endsection
