@@ -1,23 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
+// Redirigir la raíz directamente al listado de productos
+Route::get('/', [ProductoController::class, 'index'])->name('home');
 
 // Página principal
 Route::view('/Inicio', 'inicio');
@@ -47,9 +40,10 @@ Route::view('/Login', 'login');
 // Test
 Route::view('/test', 'test');
 
-// Productos
-Route::view('/Productos', 'productos');
-Route::view('/producto', 'producto');
+// --- RUTAS DE PRODUCTOS (CONTROLADOR) ---
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/productos/crear', [ProductoController::class, 'create'])->name('productos.create');
+Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
 
 // Promociones
 Route::view('/Promociones', 'promociones');
@@ -57,7 +51,7 @@ Route::view('/Promociones', 'promociones');
 // Perfil
 Route::view('/Perfil', 'perfil');
 
-// Panel administrativo estatico para la actividad de diseno frontend
+// Panel administrativo
 Route::view('/admin', 'admin.dashboard')->name('admin.dashboard');
 
 $adminModules = [
