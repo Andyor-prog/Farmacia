@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\AdminRecordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,8 @@ Route::delete('/productos/{producto}/eliminar-definitivo', [ProductoController::
 Route::view('/admin', 'admin.dashboard')->name('admin.dashboard');
 
 $adminModules = [
-    'usuarios', 'roles', 'especialidades', 'sesiones-sociales', 'medicos',
-    'citas', 'expedientes', 'servicios-medicos', 'carritos', 'listas-deseos',
-    'historial-transacciones', 'logs',
+    'roles', 'especialidades', 'sesiones-sociales', 'medicos', 'citas',
+    'expedientes', 'servicios-medicos', 'listas-deseos', 'logs',
 ];
 
 foreach ($adminModules as $module) {
@@ -50,4 +50,17 @@ foreach ($adminModules as $module) {
         'module' => $module,
         'mode' => 'create',
     ])->name("admin.{$module}.create");
+}
+
+$managedModules = [
+    'usuarios', 'carritos', 'carrito-detalles', 'historial-transacciones', 'users',
+];
+
+foreach ($managedModules as $module) {
+    Route::get("/admin/{$module}", [AdminRecordController::class, 'index'])->name("admin.{$module}.index");
+    Route::get("/admin/{$module}/crear", [AdminRecordController::class, 'create'])->name("admin.{$module}.create");
+    Route::post("/admin/{$module}", [AdminRecordController::class, 'store'])->name("admin.{$module}.store");
+    Route::get("/admin/{$module}/{id}/editar", [AdminRecordController::class, 'edit'])->name("admin.{$module}.edit");
+    Route::put("/admin/{$module}/{id}", [AdminRecordController::class, 'update'])->name("admin.{$module}.update");
+    Route::delete("/admin/{$module}/{id}", [AdminRecordController::class, 'destroy'])->name("admin.{$module}.destroy");
 }

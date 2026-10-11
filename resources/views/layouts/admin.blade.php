@@ -9,8 +9,10 @@
         ['slug' => 'expedientes', 'label' => 'Expedientes', 'icon' => '▤'],
         ['slug' => 'servicios-medicos', 'label' => 'Servicios medicos', 'icon' => '✚'],
         ['slug' => 'carritos', 'label' => 'Carritos', 'icon' => '▱'],
+        ['slug' => 'carrito-detalles', 'label' => 'Detalles de carrito', 'icon' => '▤'],
         ['slug' => 'listas-deseos', 'label' => 'Listas de deseos', 'icon' => '♡'],
         ['slug' => 'historial-transacciones', 'label' => 'Transacciones', 'icon' => '↔'],
+        ['slug' => 'users', 'label' => 'Cuentas de acceso', 'icon' => '◎'],
         ['slug' => 'logs', 'label' => 'Logs del sistema', 'icon' => '≡'],
     ];
 @endphp
