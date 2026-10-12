@@ -2,6 +2,7 @@
     $navigation = [
         ['slug' => 'usuarios', 'label' => 'Usuarios', 'icon' => '◉'],
         ['slug' => 'roles', 'label' => 'Roles', 'icon' => '◇'],
+        ['slug' => 'usuario-roles', 'label' => 'Roles de usuario', 'icon' => '⬡'], // <-- LÍNEA AGREGADA
         ['slug' => 'especialidades', 'label' => 'Especialidades', 'icon' => '✦'],
         ['slug' => 'sesiones-sociales', 'label' => 'Sesiones sociales', 'icon' => '↗'],
         ['slug' => 'medicos', 'label' => 'Medicos', 'icon' => '＋'],
@@ -9,8 +10,10 @@
         ['slug' => 'expedientes', 'label' => 'Expedientes', 'icon' => '▤'],
         ['slug' => 'servicios-medicos', 'label' => 'Servicios medicos', 'icon' => '✚'],
         ['slug' => 'carritos', 'label' => 'Carritos', 'icon' => '▱'],
+        ['slug' => 'carrito-detalles', 'label' => 'Detalles de carrito', 'icon' => '▤'],
         ['slug' => 'listas-deseos', 'label' => 'Listas de deseos', 'icon' => '♡'],
         ['slug' => 'historial-transacciones', 'label' => 'Transacciones', 'icon' => '↔'],
+        ['slug' => 'users', 'label' => 'Cuentas de acceso', 'icon' => '◎'],
         ['slug' => 'logs', 'label' => 'Logs del sistema', 'icon' => '≡'],
     ];
 ?>
@@ -32,6 +35,9 @@
             <nav class="flex gap-1 overflow-x-auto p-4 lg:block lg:space-y-1 lg:overflow-visible">
                 <a href="<?php echo e(route('admin.dashboard')); ?>" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm <?php echo e(request()->routeIs('admin.dashboard') ? 'is-active' : ''); ?>">
                     <span class="w-5 text-center">⌂</span> Resumen
+                </a>
+                <a href="<?php echo e(route('productos.index')); ?>" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm <?php echo e(request()->routeIs('productos.*') ? 'is-active' : ''); ?>">
+                    <span class="w-5 text-center text-cyan-200">▣</span> Productos
                 </a>
                 <?php $__currentLoopData = $navigation; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <a href="<?php echo e(route('admin.' . $item['slug'] . '.index')); ?>" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm <?php echo e(request()->routeIs('admin.' . $item['slug'] . '.*') ? 'is-active' : ''); ?>">
@@ -58,5 +64,4 @@
         </main>
     </div>
 </body>
-</html>
-<?php /**PATH C:\xampp\htdocs\Farmacia-main\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\Farmacia-main\resources\views/layouts/admin.blade.php ENDPATH**/ ?>

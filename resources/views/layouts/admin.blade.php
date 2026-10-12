@@ -2,6 +2,7 @@
     $navigation = [
         ['slug' => 'usuarios', 'label' => 'Usuarios', 'icon' => '◉'],
         ['slug' => 'roles', 'label' => 'Roles', 'icon' => '◇'],
+        ['slug' => 'usuario-roles', 'label' => 'Roles de usuario', 'icon' => '⬡'], // <-- LÍNEA AGREGADA
         ['slug' => 'especialidades', 'label' => 'Especialidades', 'icon' => '✦'],
         ['slug' => 'sesiones-sociales', 'label' => 'Sesiones sociales', 'icon' => '↗'],
         ['slug' => 'medicos', 'label' => 'Medicos', 'icon' => '＋'],
