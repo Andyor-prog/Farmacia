@@ -64,4 +64,4 @@
         </main>
     </div>
 </body>
-</html><?php /**PATH C:\xampp\htdocs\Farmacia-main\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\gerin\Documents\Farmacia\resources\views/layouts/admin.blade.php ENDPATH**/ ?>

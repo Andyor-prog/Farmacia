@@ -7,6 +7,12 @@ use App\Http\Controllers\UsuarioRolController;
 use App\Http\Controllers\HistorialTransaccionController;
 use App\Http\Controllers\SesionSocialController;
 
+// Controladores agregados para tus módulos
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\ServicioMedicoController;
+use App\Http\Controllers\LogController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,13 +57,18 @@ Route::get('/admin/sesiones-sociales/crear', [SesionSocialController::class, 'cr
 Route::post('/admin/sesiones-sociales', [SesionSocialController::class, 'store'])->name('admin.sesiones-sociales.store');
 Route::delete('/admin/sesiones-sociales/{id}', [SesionSocialController::class, 'destroy'])->name('admin.sesiones-sociales.destroy');
 
+// --- RUTAS DE TUS MÓDULOS ASIGNADOS ---
+Route::resource('admin/roles', RolController::class)->names('admin.roles');
+Route::resource('admin/especialidades', EspecialidadController::class)->names('admin.especialidades');
+Route::resource('admin/servicios-medicos', ServicioMedicoController::class)->names('admin.servicios-medicos');
+Route::resource('admin/logs', LogController::class)->names('admin.logs');
+
 // Panel administrativo
 Route::view('/admin', 'admin.dashboard')->name('admin.dashboard');
 
-// Módulos con vistas estáticas/temporales (incluye 'recetas-medicas' y mantiene temporalmente 'listas-deseos')
+// Módulos con vistas estáticas/temporales
 $adminModules = [
-    'roles', 'especialidades', 'medicos', 'citas',
-    'expedientes', 'servicios-medicos', 'recetas-medicas', 'listas-deseos', 'logs',
+    'medicos', 'citas', 'expedientes', 'recetas-medicas', 'listas-deseos',
 ];
 
 foreach ($adminModules as $module) {
