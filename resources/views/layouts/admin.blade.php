@@ -33,17 +33,24 @@
                 <span class="rounded-full bg-white/10 px-2 py-1 text-[10px] uppercase tracking-widest text-cyan-100">Admin</span>
             </div>
             <nav class="flex gap-1 overflow-x-auto p-4 lg:block lg:space-y-1 lg:overflow-visible">
-                <a href="{{ route('admin.dashboard') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('admin.dashboard') ? 'is-active' : '' }}">
-                    <span class="w-5 text-center">⌂</span> Resumen
-                </a>
-                <a href="{{ route('productos.index') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('productos.*') ? 'is-active' : '' }}">
+                <a href="{{ route('productos.index') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('productos.index', 'productos.show') ? 'is-active' : '' }}">
                     <span class="w-5 text-center text-cyan-200">▣</span> Productos
                 </a>
-                @foreach ($navigation as $item)
-                    <a href="{{ route('admin.' . $item['slug'] . '.index') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('admin.' . $item['slug'] . '.*') ? 'is-active' : '' }}">
-                        <span class="w-5 text-center text-cyan-200">{{ $item['icon'] }}</span> {{ $item['label'] }}
+                @auth('admin')
+                    <a href="{{ route('admin.dashboard') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('admin.dashboard') ? 'is-active' : '' }}">
+                        <span class="w-5 text-center">⌂</span> Resumen
                     </a>
-                @endforeach
+                    @foreach ($navigation as $item)
+                        <a href="{{ route('admin.' . $item['slug'] . '.index') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm {{ request()->routeIs('admin.' . $item['slug'] . '.*') ? 'is-active' : '' }}">
+                            <span class="w-5 text-center text-cyan-200">{{ $item['icon'] }}</span> {{ $item['label'] }}
+                        </a>
+                    @endforeach
+                @endauth
+                @guest('admin')
+                    <a href="{{ route('login') }}" class="admin-nav-link flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm">
+                        <span class="w-5 text-center">◎</span> Acceso de administrador
+                    </a>
+                @endguest
             </nav>
         </aside>
         <main class="min-w-0 flex-1">
@@ -54,10 +61,29 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <button type="button" class="hidden rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 sm:block">⌕ Buscar</button>
-                    <div class="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 font-semibold text-orange-700">AM</div>
+                    @auth('admin')
+                        <span class="hidden text-sm font-semibold text-slate-700 sm:block">{{ auth('admin')->user()->nombre_completo }}</span>
+                        <form action="{{ route('admin.logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 hover:border-red-300 hover:text-red-700">Cerrar sesión</button>
+                        </form>
+                    @endauth
+                    @guest('admin')
+                        <a href="{{ route('login') }}" class="rounded-lg bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800">Iniciar sesión</a>
+                    @endguest
                 </div>
             </header>
             <div class="p-5 lg:p-10">
+                @session('status')
+                    <div role="status" class="mb-5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+                        {{ $value }}
+                    </div>
+                @endsession
+                @session('error')
+                    <div role="alert" class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                        {{ $value }}
+                    </div>
+                @endsession
                 @yield('content')
             </div>
         </main>

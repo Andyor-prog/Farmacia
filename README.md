@@ -7,6 +7,36 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Acceso administrativo
+
+El panel utiliza el guardia de sesión `admin`, independiente del guardia `web`. Para instalar la tabla de administradores:
+
+```bash
+php artisan migrate
+```
+
+Crea la primera cuenta desde Tinker; el modelo almacena la contraseña como hash:
+
+```bash
+php artisan tinker
+```
+
+```php
+use App\Models\Administrador;
+use Illuminate\Support\Facades\Hash;
+
+Administrador::create([
+    'nombre_completo' => 'Nombre del administrador',
+    'nombre_usuario' => 'admin',
+    'password' => Hash::make('reemplaza-por-una-contrasena-segura'),
+    'activo' => true,
+]);
+```
+
+Abre `/admin/login` para iniciar sesión. El catálogo de productos y sus detalles son públicos; el panel y las operaciones de administración requieren un administrador activo. Para cerrar sesión, utiliza el botón del panel.
+
+En producción, configura HTTPS y no guardes contraseñas reales ni credenciales en el repositorio.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

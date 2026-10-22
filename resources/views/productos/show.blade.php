@@ -33,13 +33,15 @@
             </dl>
         </section>
 
-        <div class="mt-6 flex flex-wrap gap-3">
-            <a href="{{ route('productos.edit', $producto) }}" class="rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-600">Editar</a>
-            <form action="{{ route('productos.destroy', $producto) }}" method="POST" onsubmit="return confirm('¿Deseas mover este producto a la papelera? Podrás restaurarlo después.');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50">Eliminar</button>
-            </form>
-        </div>
+        @auth('admin')
+            <div class="mt-6 flex flex-wrap gap-3">
+                <a href="{{ route('productos.edit', $producto) }}" class="rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-600">Editar</a>
+                <form action="{{ route('productos.destroy', $producto) }}" method="POST" onsubmit="return confirm('¿Deseas mover este producto a la papelera? Podrás restaurarlo después.');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50">Eliminar</button>
+                </form>
+            </div>
+        @endauth
     </div>
 @endsection

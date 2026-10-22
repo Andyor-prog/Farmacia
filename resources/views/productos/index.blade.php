@@ -8,10 +8,12 @@
                 <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Productos</h1>
                 <p class="mt-2 text-slate-500">Administra el inventario de productos disponibles en la farmacia.</p>
             </div>
-            <div class="flex gap-3">
-                <a href="{{ route('productos.papelera') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-orange-400 hover:text-orange-700">🗑 Papelera</a>
-                <a href="{{ route('productos.create') }}" class="inline-flex items-center justify-center rounded-lg bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800">+ Nuevo producto</a>
-            </div>
+            @auth('admin')
+                <div class="flex gap-3">
+                    <a href="{{ route('productos.papelera') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-orange-400 hover:text-orange-700">🗑 Papelera</a>
+                    <a href="{{ route('productos.create') }}" class="inline-flex items-center justify-center rounded-lg bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800">+ Nuevo producto</a>
+                </div>
+            @endauth
         </div>
 
         @if (session('exito'))
@@ -45,19 +47,25 @@
                         <p class="text-sm text-slate-500">Stock: {{ $producto->stock }} unidades</p>
                         <div class="mt-3 flex gap-2 border-t border-slate-200 pt-3">
                             <a href="{{ route('productos.show', $producto) }}" class="flex-1 rounded-md border border-slate-200 px-2.5 py-1.5 text-center text-xs font-semibold text-slate-600 hover:border-teal-400 hover:text-teal-700">Ver</a>
-                            <a href="{{ route('productos.edit', $producto) }}" class="flex-1 rounded-md border border-slate-200 px-2.5 py-1.5 text-center text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-700">Editar</a>
+                            @auth('admin')
+                                <a href="{{ route('productos.edit', $producto) }}" class="flex-1 rounded-md border border-slate-200 px-2.5 py-1.5 text-center text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-700">Editar</a>
+                            @endauth
                         </div>
-                        <form action="{{ route('productos.destroy', $producto) }}" method="POST" onsubmit="return confirm('¿Deseas mover este producto a la papelera? Podrás restaurarlo después.');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="w-full rounded-md border border-red-200 px-2.5 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Eliminar</button>
-                        </form>
+                        @auth('admin')
+                            <form action="{{ route('productos.destroy', $producto) }}" method="POST" onsubmit="return confirm('¿Deseas mover este producto a la papelera? Podrás restaurarlo después.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-full rounded-md border border-red-200 px-2.5 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Eliminar</button>
+                            </form>
+                        @endauth
                     </div>
                 </section>
             @empty
                 <div class="col-span-full admin-panel rounded-xl p-10 text-center">
                     <p class="text-slate-500">No hay productos registrados aún.</p>
-                    <a href="{{ route('productos.create') }}" class="mt-4 inline-block rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white">Crear el primer producto</a>
+                    @auth('admin')
+                        <a href="{{ route('productos.create') }}" class="mt-4 inline-block rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white">Crear el primer producto</a>
+                    @endauth
                 </div>
             @endforelse
         </div>
