@@ -19,6 +19,7 @@ class Administrador extends Authenticatable
         'nombre_usuario',
         'password',
         'activo',
+        'nivel', // <-- Agregado para la Actividad 2
     ];
 
     protected $hidden = [
@@ -29,5 +30,6 @@ class Administrador extends Authenticatable
     protected $casts = [
         'activo' => 'boolean',
         'password' => 'hashed',
+        'nivel' => 'integer', // <-- Opcional, para castear el valor a entero
     ];
 }
