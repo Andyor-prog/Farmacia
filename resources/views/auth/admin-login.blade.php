@@ -45,6 +45,10 @@
                 Iniciar sesión
             </button>
         </form>
+        <p class="mt-6 border-t border-slate-100 pt-5 text-center text-sm text-slate-500">
+            ¿Eres doctor?
+            <a href="{{ route('doctor.login') }}" class="font-semibold text-teal-700 hover:text-teal-900">Accede al portal clínico</a>
+        </p>
     </main>
 </body>
 </html>

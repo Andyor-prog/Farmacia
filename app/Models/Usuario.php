@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
     protected $table = 'usuarios';
 
@@ -23,6 +24,10 @@ class Usuario extends Model
         'telefono',
         'activo',
         'fecha_registro',
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     protected $casts = [

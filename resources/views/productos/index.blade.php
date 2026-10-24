@@ -13,6 +13,8 @@
                     <a href="{{ route('productos.papelera') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-orange-400 hover:text-orange-700">🗑 Papelera</a>
                     <a href="{{ route('productos.create') }}" class="inline-flex items-center justify-center rounded-lg bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800">+ Nuevo producto</a>
                 </div>
+            @else
+                <a href="{{ route('doctor.login') }}" class="inline-flex items-center justify-center rounded-lg border border-teal-700 px-4 py-2.5 text-sm font-semibold text-teal-700 transition hover:bg-teal-50">Acceso para doctores</a>
             @endauth
         </div>
 

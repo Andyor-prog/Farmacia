@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminRecordController;
+use App\Http\Controllers\DoctorAuthController;
+use App\Http\Controllers\DoctorPortalController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\HistorialTransaccionController;
 use App\Http\Controllers\LogController;
@@ -25,6 +27,27 @@ Route::get('/productos', [ProductoController::class, 'index'])->name('productos.
 Route::get('/productos/{producto}', [ProductoController::class, 'show'])
     ->whereNumber('producto')
     ->name('productos.show');
+
+Route::middleware('guest:doctor')->group(function () {
+    Route::get('/doctor/login', [DoctorAuthController::class, 'create'])->name('doctor.login');
+    Route::post('/doctor/login', [DoctorAuthController::class, 'store'])
+        ->middleware('throttle:5,1')
+        ->name('doctor.login.store');
+});
+
+Route::middleware('auth:doctor')->prefix('doctor')->name('doctor.')->group(function () {
+    Route::get('/', [DoctorPortalController::class, 'index'])->name('dashboard');
+    Route::post('/logout', [DoctorAuthController::class, 'destroy'])->name('logout');
+    Route::put('/citas/{id}', [DoctorPortalController::class, 'updateAppointment'])
+        ->whereNumber('id')
+        ->name('citas.update');
+    Route::get('/citas/{id}/expediente', [DoctorPortalController::class, 'editExpediente'])
+        ->whereNumber('id')
+        ->name('expedientes.edit');
+    Route::put('/citas/{id}/expediente', [DoctorPortalController::class, 'saveExpediente'])
+        ->whereNumber('id')
+        ->name('expedientes.update');
+});
 
 // Invitados (Login)
 Route::middleware('guest:admin')->group(function () {
